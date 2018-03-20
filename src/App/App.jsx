@@ -8,6 +8,7 @@ import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
+import { MapPage } from '../MapPage';
 
 
 import {
@@ -18,7 +19,6 @@ import {
     NavDropdown
 } from 'react-bootstrap'
 
-import { MapPage } from '../MapPage';
 
 class App extends React.Component {
     constructor(props) {
@@ -78,10 +78,11 @@ class App extends React.Component {
                 <Router history={history}>
                     <div>
                         {/*<PrivateRoute exact path="/" component={HomePage} />*/}
-                        {/*<Route path="/login" component={LoginPage} />*/}
-                        {/*<Route path="/register" component={RegisterPage} />*/}
                         <Route path="/map" component={MapPage}/>
                         <Redirect from="/" to="/map"/>
+
+                        {/*<Route path="/login" component={LoginPage} />*/}
+                        {/*<Route path="/register" component={RegisterPage} />*/}
                     </div>
                 </Router>
             </div>

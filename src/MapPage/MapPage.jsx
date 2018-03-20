@@ -1,81 +1,20 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
-
-import { points } from './points';
-
+import { pointsActions } from '../_actions';
+// TODO use real modal instaed
+//import { points } from './points';
+// components
+import ModalForm from './ModalForm';
+//style
 import {
-	Modal,
-	Button,
-	FormControl,
-	FormGroup,
-	ControlLabel
-} from 'react-bootstrap';
-import { mapStyle, markerStyle, popupStyle } from './style';
-
+	mapStyle,
+	markerStyle,
+	popupStyle
+} from './style';
+//other
 const GOOGLE_API_KEY = 'AIzaSyCOiFW6eUh6DV8bRP9Jh7ZpodyMJYw3bMI';
 
-
-function mapStateToProps(state) {
-	return {
-	};
-}
-
-
-class ModalForm  extends React.Component {
-
-	constructor(props) {
-		super(props);
-        this.state = {
-            value: ''
-        };
-	}
-
-	handleClick(){
-        this.props.onModalClose();
-	}
-
-	handleSubmit(e) {
-		e.preventDefault();
-		this.props.onModalSubmit();
-	}
-
-    handleChange(e) {
-        this.setState({ value: e.target.value });
-    }
-
-	render() {
-        return (
-			<Modal show={this.props.show} onHide={() => this.handleClick()}>
-				<Modal.Header closeButton>
-					<Modal.Title>
-						Point coordinates:
-						lat {this.props.point ? this.props.point.lat : undefined}
-						lng {this.props.point ? this.props.point.lng : undefined}
-					</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<form onSubmit={(e) => this.handleSubmit(e)}>
-						<FormGroup
-							controlId="formBasicText">
-							<ControlLabel>Water description</ControlLabel>
-							<FormControl
-								type="text"
-								value={this.state.value}
-								placeholder="Enter text"
-								onChange={(e) => this.handleChange(e)}
-							/>
-							<FormControl.Feedback />
-						</FormGroup>
-						<FormGroup>
-							<Button type="submit" bsStyle="primary">Save changes</Button>
-						</FormGroup>
-					</form>
-				</Modal.Body>
-			</Modal>
-        )
-	}
-}
 
 const PlaceData = (props) => (
     <div className="hint hint--html hint--info hint--top" style={markerStyle}>
@@ -99,7 +38,7 @@ const  zoom = 11,
 	   };
 
 
-export class MapPage extends React.Component {
+class MapPage extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -108,23 +47,21 @@ export class MapPage extends React.Component {
 			point: {
 				lat: null,
 				lng: null
-			},
-            pointList: points
+			}
 		}
 	}
+
 
 	handleClick(e) {
 		if (this.state.showModal) {
 			return;
 		}
-		let pointList = this.state.pointList;
         this.setState({
 			showModal: true,
             point: {
                 lat: e.lat,
                 lng: e.lng
-            },
-            pointList: pointList
+            }
         });
 	}
 
@@ -133,30 +70,30 @@ export class MapPage extends React.Component {
     }
 
     submitModal() {
-        this.createPoint(this.state.point);
+        //this.createPoint(this.state.point);
     }
 
     createPoint(point) {
-		let points = this.state.pointList.slice();
-		points.push({
-			id: points[points.length - 1].id++,
-			coordinates: {
-				lat: point.lat, lng: point.lng
-			}
-		});
+		// let points = this.state.pointList.slice();
+		// points.push({
+		// 	id: points[points.length - 1].id++,
+		// 	coordinates: {
+		// 		lat: point.lat, lng: point.lng
+		// 	}
+		// });
 		this.setState({
             showModal: false,
             point: {
                 lat: null,
                 lng: null
-            },
-			pointList: points
+            }
+            //, pointList: points
 		});
-
 	}
 
     render() {
-		const places = this.state.pointList.map((point) => {
+
+        const places = this.props.points.map((point) => {
 			const {id, coordinates, dsc } = point;
 			return (
 				<PlaceData
@@ -167,8 +104,6 @@ export class MapPage extends React.Component {
 				/>
 			);
 		});
-								
-
 
         return (
 			<GoogleMapReact onClick={(e) => this.handleClick(e)}
@@ -191,8 +126,12 @@ export class MapPage extends React.Component {
     }
 }
 
-export default connect(
-	mapStateToProps,
-// Implement map dispatch to props
-)(MapPage)
+function mapStateToProps(state) {
+    return {
+        points: state.points
+    };
+}
+
+const connectedMapPage = connect(mapStateToProps)(MapPage);
+export { connectedMapPage as MapPage };
 
