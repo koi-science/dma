@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-
 import {
     Modal,
     Button,
@@ -10,21 +9,21 @@ import {
     ControlLabel
 } from 'react-bootstrap';
 
-import { pointsActions } from '../_actions';
 
 function mapStateToProps(state) {
     return {
     };
 }
 
+// TODO can be a functional component
 class ModalForm  extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            value: ''
-        };
+            dsc: ''
+        }
     }
 
     handleClick(){
@@ -33,16 +32,24 @@ class ModalForm  extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        // console.log('props', this.props);
-        // this.props.dispatch(pointsActions.submit(this.state.value));
-        this.props.onModalSubmit();
+
+        const point = {
+          coordinates : {
+            lat: this.props.point.lat,
+            lng: this.props.point.lng
+          },
+          dsc: this.state.dsc
+        };
+
+        this.props.onModalSubmit(point);
     }
 
     handleChange(e) {
-        this.setState({ value: e.target.value });
+        this.setState({ dsc: e.target.value });
     }
 
     render() {
+
         return (
             <Modal show={this.props.show} onHide={() => this.handleClick()}>
                 <Modal.Header closeButton>

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
 import { connect } from 'react-redux';
 import { pointsActions } from '../_actions';
-// TODO use real modal instaed
-//import { points } from './points';
+
 // components
 import ModalForm from './ModalForm';
 //style
@@ -37,7 +36,6 @@ const  zoom = 11,
            lng: 30.33
 	   };
 
-
 class MapPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -50,7 +48,6 @@ class MapPage extends React.Component {
 			}
 		}
 	}
-
 
 	handleClick(e) {
 		if (this.state.showModal) {
@@ -69,35 +66,24 @@ class MapPage extends React.Component {
         this.setState({showModal: false});
     }
 
-    submitModal() {
-        //this.createPoint(this.state.point);
+    submitModal(point) {
+        this.createPoint(point);
     }
 
     createPoint(point) {
-		// let points = this.state.pointList.slice();
-		// points.push({
-		// 	id: points[points.length - 1].id++,
-		// 	coordinates: {
-		// 		lat: point.lat, lng: point.lng
-		// 	}
-		// });
+		this.props.dispatch(pointsActions.submit(point));
 		this.setState({
             showModal: false,
-            point: {
-                lat: null,
-                lng: null
-            }
-            //, pointList: points
 		});
 	}
 
     render() {
 
-        const places = this.props.points.map((point) => {
-			const {id, coordinates, dsc } = point;
+        const places = this.props.points.map((point, index) => {
+			const { coordinates, dsc } = point;
 			return (
 				<PlaceData
-					key={id}
+					key={index}
 					lat={coordinates.lat}
 					lng={coordinates.lng}
 					dsc={dsc}
@@ -119,7 +105,7 @@ class MapPage extends React.Component {
 				<ModalForm show={this.state.showModal}
 						   point={this.state.point}
 						   onModalClose={() => this.closeModal()}
-						   onModalSubmit={() => this.submitModal()}
+						   onModalSubmit={(point) => this.submitModal(point)}
 						   />
 			</GoogleMapReact>
         );
