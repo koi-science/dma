@@ -271,3 +271,9 @@
     -ms-transform:translateX(8px);
     transform:translateX(8px)
 }
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        width: 300px;
+    }
+}

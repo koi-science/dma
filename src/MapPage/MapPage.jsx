@@ -15,20 +15,89 @@ import {
 const GOOGLE_API_KEY = 'AIzaSyCOiFW6eUh6DV8bRP9Jh7ZpodyMJYw3bMI';
 
 
-const PlaceData = (props) => (
-    <div className="hint hint--html hint--info hint--top" style={markerStyle}>
-		<div style={popupStyle} className="hint__content">
-			{/*<dl className="row ">*/}
-				{/*<dt className="col-lg-3" style={{paddingTop: 5}}>Description lists</dt>*/}
-				{/*<dd className="col-lg-9" style={{paddingTop: 5}}>A description list is perfect for defining terms.</dd>*/}
+const PlaceData = (props) => {
 
-				{/*<dt className="col-lg-3" style={{paddingTop: 5}}>Euismod</dt>*/}
-				{/*<dd className="col-lg-9" style={{paddingTop: 5}}>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>*/}
-			{/*</dl>*/}
-			<div>{props.dsc}</div>
+    const no3 = props.dsc.no3 ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>NO3</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.no3}</dd>
 		</div>
-	</div>
-);
+    ) : null;
+
+    const po4 = props.dsc.po4 ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>PO4</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.po4}</dd>
+		</div>
+    ) : null;
+
+    const turbidity = props.dsc.turbidity ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Turbidity</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.turbidity}</dd>
+		</div>
+    ) : null;
+
+    const ph = props.dsc.ph ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>pH</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.ph}</dd>
+		</div>
+    ) : null;
+
+    const location_type = props.dsc.location_type ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Type of location</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.location_type}</dd>
+		</div>
+    ) : null;
+
+    const color = props.dsc.color ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Water color</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.color}</dd>
+		</div>
+    ) : null;
+
+    const location_dsc = props.dsc.location_dsc ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Description of location</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.location_dsc}</dd>
+		</div>
+    ) : null;
+
+    const season = props.dsc.season ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Season</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.season}</dd>
+		</div>
+    ) : null;
+
+    const temperature = props.dsc.temperature ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Temperature</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.temperature}</dd>
+		</div>
+    ) : null;
+
+    return (
+		<div className="hint hint--html hint--info hint--top" style={markerStyle}>
+			<div style={popupStyle} className="hint__content">
+				<dl>
+					{no3}
+					{po4}
+					{turbidity}
+					{ph}
+					{location_type}
+					{color}
+					{location_dsc}
+					{season}
+					{temperature}
+				</dl>
+			</div>
+		</div>
+    )
+};
 
 const  zoom = 11,
 	   center = {

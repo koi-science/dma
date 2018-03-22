@@ -22,7 +22,15 @@ class ModalForm  extends React.Component {
         super(props);
 
         this.state = {
-            dsc: ''
+            no3: '',
+            po4: '',
+            turbidity: '',
+            ph: '',
+            location_type: '',
+            color: '',
+            location_dsc: '',
+            season: '',
+            temperature: ''
         }
     }
 
@@ -38,14 +46,14 @@ class ModalForm  extends React.Component {
             lat: this.props.point.lat,
             lng: this.props.point.lng
           },
-          dsc: this.state.dsc
+          dsc: this.state
         };
 
         this.props.onModalSubmit(point);
     }
 
     handleChange(e) {
-        this.setState({ dsc: e.target.value });
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     render() {
@@ -54,20 +62,88 @@ class ModalForm  extends React.Component {
             <Modal show={this.props.show} onHide={() => this.handleClick()}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        Point coordinates:
-                        lat {this.props.point ? this.props.point.lat : undefined}
-                        lng {this.props.point ? this.props.point.lng : undefined}
+                        {/*Point coordinates:*/}
+                        {/*lat {this.props.point ? this.props.point.lat : undefined}*/}
+                        {/*lng {this.props.point ? this.props.point.lng : undefined}*/}
+                        Add water quality report
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={(e) => this.handleSubmit(e)}>
                         <FormGroup
-                            controlId="formBasicText">
-                            <ControlLabel>Water description</ControlLabel>
+                            controlId="formWaterReport">
+
+                            <ControlLabel>NO3 concentration</ControlLabel>
+                            <FormControl
+                                type="number"
+                                min="0"
+                                name="no3"
+                                value={this.state.no3}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <ControlLabel> PO4 concentration</ControlLabel>
+                            <FormControl
+                                type="number"
+                                min="0"
+                                name="po4"
+                                value={this.state.po4}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <ControlLabel>Turbidity</ControlLabel>
+                            <FormControl
+                                type="number"
+                                min="0"
+                                name="turbidity"
+                                value={this.state.turbidity}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <ControlLabel>pH value</ControlLabel>
                             <FormControl
                                 type="text"
-                                value={this.state.value}
-                                placeholder="Enter text"
+                                min="0"
+                                name="ph"
+                                value={this.state.ph}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <ControlLabel>Type of location</ControlLabel>
+                            <FormControl
+                                type="text"
+                                name="location_type"
+                                value={this.state.location}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <ControlLabel>Color of the surface water</ControlLabel>
+                            <FormControl
+                                type="text"
+                                name="color"
+                                value={this.state.color}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <ControlLabel>Description of location</ControlLabel>
+                            <FormControl
+                                type="text"
+                                name="location_dsc"
+                                value={this.state.location}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+                            <ControlLabel>Season</ControlLabel>
+                            <FormControl
+                                type="text"
+                                name="season"
+                                value={this.state.season}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+                            <ControlLabel>Temperature of the day</ControlLabel>
+                            <FormControl
+                                type="text"
+                                name="temperature"
+                                value={this.state.temperature}
                                 onChange={(e) => this.handleChange(e)}
                             />
                             <FormControl.Feedback />

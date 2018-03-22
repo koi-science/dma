@@ -6,12 +6,16 @@ const pointList = [{
         lat: 59.95,
         lng: 30.33
     },
-    dsc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
-    'Praesent cursus cursus felis, ac consequat erat tincidunt eu.' +
-    ' Vivamus efficitur placerat nibh. Sed mattis dapibus odio nec faucibus.'
+    dsc: {
+        ph: '6.5',
+        location_type: 'river',
+        color: 'deep blue',
+        location_dsc: '2 cm from Helsinki (on the map)',
+    }
 }];
 
 export function points(state=pointList, action) {
+
     switch (action.type) {
         case pointsConstant.SUBMIT_REQUEST:
             return [
