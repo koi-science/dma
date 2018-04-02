@@ -277,3 +277,24 @@
         width: 300px;
     }
 }
+
+.form-group input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+.form-group input::-webkit-outer-spin-button,
+.form-group input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+.form-group input, .input-group {
+    margin-bottom: 5px;
+}
+
+.form-group h5{
+    font-weight: 700;
+}
+
+.form-group label {
+    font-weight: 400;
+}

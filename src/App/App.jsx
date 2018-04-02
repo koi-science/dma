@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Redirect } from 'react-router-dom';
+import { Router, Route, Redirect, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { history } from '../_helpers';
@@ -9,6 +9,9 @@ import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { MapPage } from '../MapPage';
+
+//style
+import { navStyle } from './style'
 
 
 import {
@@ -39,50 +42,49 @@ class App extends React.Component {
                     <div className={`alert ${alert.type}`}>{alert.message}</div>
                 }
 
-
-                <Navbar inverse collapseOnSelect>
-                    <Navbar.Header>
-                        <Navbar.Brand>
-                            <a href="#brand">React-Bootstrap</a>
-                        </Navbar.Brand>
-                        <Navbar.Toggle />
-                    </Navbar.Header>
-                    <Navbar.Collapse>
-                        <Nav>
-                            <NavItem eventKey={1} href="#">
-                                Link
-                            </NavItem>
-                            <NavItem eventKey={2} href="#">
-                                Link
-                            </NavItem>
-                            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                                <MenuItem eventKey={3.1}>Action</MenuItem>
-                                <MenuItem eventKey={3.2}>Another action</MenuItem>
-                                <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                                <MenuItem divider />
-                                <MenuItem eventKey={3.3}>Separated link</MenuItem>
-                            </NavDropdown>
-                        </Nav>
-                        <Nav pullRight>
-                            <NavItem eventKey={1} href="#">
-                                Link Right
-                            </NavItem>
-                            <NavItem eventKey={2} href="#">
-                                Link Right
-                            </NavItem>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>;
-
-
                 <Router history={history}>
                     <div>
+                        <Navbar inverse collapseOnSelect>
+                            <Navbar.Header>
+                                <Navbar.Brand>
+                                    <a href="#brand">React-Bootstrap</a>
+                                </Navbar.Brand>
+                                <Navbar.Toggle />
+                            </Navbar.Header>
+                            <Navbar.Collapse>
+                                <Nav>
+                                    <NavItem eventKey={1} href="#">
+                                        Link
+                                    </NavItem>
+                                    <NavItem eventKey={2} href="#">
+                                        Link
+                                    </NavItem>
+                                    <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+                                        <MenuItem eventKey={3.1}>Action</MenuItem>
+                                        <MenuItem eventKey={3.2}>Another action</MenuItem>
+                                        <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                                        <MenuItem divider />
+                                        <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                                    </NavDropdown>
+                                </Nav>
+                                <Nav pullRight>
+                                    <NavLink style={navStyle}
+                                        to="/login">
+                                        Login
+                                    </NavLink>
+                                    <NavLink to="/register" style={navStyle}>
+                                        Register
+                                    </NavLink>
+                                </Nav>
+                            </Navbar.Collapse>
+                        </Navbar>;
+
                         {/*<PrivateRoute exact path="/" component={HomePage} />*/}
-                        <Route path="/map" component={MapPage}/>
+                        <PrivateRoute path="/map" component={MapPage} />
+                        <Route path="/login" component={LoginPage} />
+                        <Route path="/register" component={RegisterPage} />
                         <Redirect from="/" to="/map"/>
 
-                        {/*<Route path="/login" component={LoginPage} />*/}
-                        {/*<Route path="/register" component={RegisterPage} />*/}
                     </div>
                 </Router>
             </div>

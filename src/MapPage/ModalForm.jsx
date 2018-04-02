@@ -9,6 +9,8 @@ import {
     ControlLabel
 } from 'react-bootstrap';
 
+import DatePicker from 'react-16-bootstrap-date-picker';
+
 
 function mapStateToProps(state) {
     return {
@@ -21,17 +23,26 @@ class ModalForm  extends React.Component {
     constructor(props) {
         super(props);
 
+
         this.state = {
+            observation: '',
             no3: '',
             po4: '',
+            nh4: '',
             turbidity: '',
             ph: '',
+            water_temperature: '',
+            date: '',
+            coordinates: '',
+            water_type: '',
+
+
+            day_temperature: '',
             location_type: '',
-            color: '',
-            location_dsc: '',
-            season: '',
-            temperature: ''
-        }
+            location_dsc: ''
+        };
+
+        this.emptyState = JSON.parse(JSON.stringify(this.state));
     }
 
     handleClick(){
@@ -49,15 +60,31 @@ class ModalForm  extends React.Component {
           dsc: this.state
         };
 
+        this.setState(this.emptyState);
         this.props.onModalSubmit(point);
+
     }
 
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    render() {
+    handleNumericChange(e) {
+       if (this.isNumber(e.target.value) || e.target.value === '') {
+           this.handleChange(e)
+       }
+    }
 
+    handleDateChange(date) {
+        this.setState({date: date});
+    }
+
+    isNumber(str) {
+        let pattern = /^\d+$/;
+        return pattern.test(str);
+    }
+
+    render() {
         return (
             <Modal show={this.props.show} onHide={() => this.handleClick()}>
                 <Modal.Header closeButton>
@@ -73,84 +100,131 @@ class ModalForm  extends React.Component {
                         <FormGroup
                             controlId="formWaterReport">
 
-                            <ControlLabel>NO3 concentration</ControlLabel>
+                            <h5>Algae or Phytoplankton content</h5>
+                            <ControlLabel>Microscope observation: </ControlLabel>
                             <FormControl
-                                type="number"
-                                min="0"
+                                type="text"
+                                maxlength="120"
+                                name="observation"
+                                value={this.state.observation}
+                                onChange={(e) => this.handleChange(e)}
+                            />
+
+                            <h5>Nutrients</h5>
+                            <ControlLabel>Phosphorus (PO4) mg/l: </ControlLabel>
+                            <FormControl
+                                type="text"
                                 name="no3"
                                 value={this.state.no3}
-                                onChange={(e) => this.handleChange(e)}
+                                onChange={(e) => this.handleNumericChange(e)}
                             />
 
-                            <ControlLabel> PO4 concentration</ControlLabel>
+                            <ControlLabel>Nitrate (NO3) mg/l:</ControlLabel>
                             <FormControl
                                 type="number"
                                 min="0"
+                                step="0.1"
                                 name="po4"
                                 value={this.state.po4}
-                                onChange={(e) => this.handleChange(e)}
+                                onChange={(e) => this.handleNumericChange(e)}
                             />
 
-                            <ControlLabel>Turbidity</ControlLabel>
+                            <ControlLabel>Ammonia (NH4) mg/l:</ControlLabel>
                             <FormControl
                                 type="number"
                                 min="0"
-                                name="turbidity"
-                                value={this.state.turbidity}
-                                onChange={(e) => this.handleChange(e)}
+                                step="0.1"
+                                name="nh4"
+                                value={this.state.nh4}
+                                onChange={(e) => this.handleNumericChange(e)}
                             />
 
-                            <ControlLabel>pH value</ControlLabel>
+                            <h5>Other chemical parameters</h5>
+
+                            <ControlLabel>pH: </ControlLabel>
                             <FormControl
                                 type="text"
                                 min="0"
+                                step="0.1"
                                 name="ph"
                                 value={this.state.ph}
-                                onChange={(e) => this.handleChange(e)}
+                                onChange={(e) => this.handleNumericChange(e)}
+                            />
+                            <ControlLabel>Turbidity: </ControlLabel>
+                            <FormControl
+                                type="number"
+                                min="0"
+                                step="0.1"
+                                name="turbidity"
+                                value={this.state.turbidity}
+                                onChange={(e) => this.handleNumericChange(e)}
                             />
 
-                            <ControlLabel>Type of location</ControlLabel>
+                            <ControlLabel>Water temperature: </ControlLabel>
                             <FormControl
-                                type="text"
-                                name="location_type"
-                                value={this.state.location}
-                                onChange={(e) => this.handleChange(e)}
+                                type="number"
+                                min="0"
+                                name="water_temperature"
+                                value={this.state.water_temperature}
+                                onChange={(e) => this.handleNumericChange(e)}
                             />
 
-                            <ControlLabel>Color of the surface water</ControlLabel>
+                            <h5>Sampling information</h5>
+                            <ControlLabel>Date: </ControlLabel>
+                            <DatePicker
+                                onChange={(date) => {this.handleDateChange(date) }}
+                                name="date"
+                                value={this.state.date}/>
+
+                            {/*<ControlLabel>GPS localization or address: </ControlLabel>*/}
+
+                            <ControlLabel>Day temperature: </ControlLabel>
                             <FormControl
-                                type="text"
-                                name="color"
-                                value={this.state.color}
-                                onChange={(e) => this.handleChange(e)}
+                                type="number"
+                                min="0"
+                                name="day_temperature"
+                                value={this.state.day_temperature}
+                                onChange={(e) => this.handleNumericChange(e)}
                             />
 
-                            <ControlLabel>Description of location</ControlLabel>
+                            <ControlLabel>Water body type: </ControlLabel>
+                            <FormControl componentClass="select"
+                                         name="water_type"
+                                         value={this.state.water_type}
+                                         onChange={ (e) => { this.handleChange(e) }}>
+                                <option label=" " value=""></option>
+                                <optgroup label="stagnated water">
+                                    <option value="Stagnated water: big pond, lake">big pond, lake</option>
+                                </optgroup>
+                                <optgroup label="running water">
+                                    <option value="Running water: river">river</option>
+                                </optgroup>
+                            </FormControl>
+
+                            <ControlLabel>Location type: </ControlLabel>
+                            <FormControl componentClass="select"
+                                         name="location_type"
+                                         value={this.state.location_type}
+                                         onChange={ (e) => { this.handleChange(e) }}>
+                                <option label=" " value=""></option>
+                                <option value="City or urban park">City or urban park</option>
+                                <option value="Natural park or forest">Natural park or forest</option>
+                            </FormControl>
+
+                            <ControlLabel>Location desription: </ControlLabel>
                             <FormControl
                                 type="text"
+                                maxLength="120"
                                 name="location_dsc"
-                                value={this.state.location}
+                                value={this.state.location_dsc}
                                 onChange={(e) => this.handleChange(e)}
                             />
-                            <ControlLabel>Season</ControlLabel>
-                            <FormControl
-                                type="text"
-                                name="season"
-                                value={this.state.season}
-                                onChange={(e) => this.handleChange(e)}
-                            />
-                            <ControlLabel>Temperature of the day</ControlLabel>
-                            <FormControl
-                                type="text"
-                                name="temperature"
-                                value={this.state.temperature}
-                                onChange={(e) => this.handleChange(e)}
-                            />
-                            <FormControl.Feedback />
+
+
                         </FormGroup>
                         <FormGroup>
-                            <Button type="submit" bsStyle="primary">Save changes</Button>
-                        </FormGroup>
+                        <Button type="submit" bsStyle="primary">Save changes</Button>
+                    </FormGroup>
                     </form>
                 </Modal.Body>
             </Modal>

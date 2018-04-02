@@ -17,6 +17,13 @@ const GOOGLE_API_KEY = 'AIzaSyCOiFW6eUh6DV8bRP9Jh7ZpodyMJYw3bMI';
 
 const PlaceData = (props) => {
 
+    const observation = props.dsc.observation ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Microscope observation</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.observation}</dd>
+		</div>
+    ) : null;
+
     const no3 = props.dsc.no3 ? (
 		<div className="row">
 			<dt className="col-lg-3" style={{paddingTop: 5}}>NO3</dt>
@@ -28,6 +35,13 @@ const PlaceData = (props) => {
 		<div className="row">
 			<dt className="col-lg-3" style={{paddingTop: 5}}>PO4</dt>
 			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.po4}</dd>
+		</div>
+    ) : null;
+
+    const nh4 = props.dsc.nh4 ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>NH4</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.nh4}</dd>
 		</div>
     ) : null;
 
@@ -45,6 +59,13 @@ const PlaceData = (props) => {
 		</div>
     ) : null;
 
+    const water_temperature = props.dsc.water_temperature ? (
+		<div className="row">
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Water temperature</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.water_temperature}</dd>
+		</div>
+    ) : null;
+
     const location_type = props.dsc.location_type ? (
 		<div className="row">
 			<dt className="col-lg-3" style={{paddingTop: 5}}>Type of location</dt>
@@ -52,12 +73,6 @@ const PlaceData = (props) => {
 		</div>
     ) : null;
 
-    const color = props.dsc.color ? (
-		<div className="row">
-			<dt className="col-lg-3" style={{paddingTop: 5}}>Water color</dt>
-			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.color}</dd>
-		</div>
-    ) : null;
 
     const location_dsc = props.dsc.location_dsc ? (
 		<div className="row">
@@ -66,17 +81,17 @@ const PlaceData = (props) => {
 		</div>
     ) : null;
 
-    const season = props.dsc.season ? (
+    const day_temperature = props.dsc.day_temperature ? (
 		<div className="row">
-			<dt className="col-lg-3" style={{paddingTop: 5}}>Season</dt>
-			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.season}</dd>
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Day temperature</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.day_temperature}</dd>
 		</div>
     ) : null;
 
-    const temperature = props.dsc.temperature ? (
+    const water_type = props.dsc.water_type ? (
 		<div className="row">
-			<dt className="col-lg-3" style={{paddingTop: 5}}>Temperature</dt>
-			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.temperature}</dd>
+			<dt className="col-lg-3" style={{paddingTop: 5}}>Water body type</dt>
+			<dd className="col-lg-9" style={{paddingTop: 5}}>{props.dsc.water_type}</dd>
 		</div>
     ) : null;
 
@@ -84,15 +99,21 @@ const PlaceData = (props) => {
 		<div className="hint hint--html hint--info hint--top" style={markerStyle}>
 			<div style={popupStyle} className="hint__content">
 				<dl>
+					{observation}
+
 					{no3}
 					{po4}
-					{turbidity}
+					{nh4}
+
 					{ph}
-					{location_type}
-					{color}
+					{turbidity}
+					{water_temperature}
+
+					{day_temperature}
+					{water_type}
+                    {location_type}
 					{location_dsc}
-					{season}
-					{temperature}
+
 				</dl>
 			</div>
 		</div>
@@ -129,6 +150,8 @@ class MapPage extends React.Component {
                 lng: e.lng
             }
         });
+		console.log('e', e);
+
 	}
 
 	closeModal() {
